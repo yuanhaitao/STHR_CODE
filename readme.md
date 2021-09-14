@@ -12,7 +12,7 @@ The code runs well under python 3.6.5. The required packages are as follows:
 
 ### Datasets
 
-The raw data is from Didi (https://outreach.didichuxing.com/research/opendata/）, and we have preprocessed these data into the format of our model's input, where the sampling data (all data is too big, 200G+😁) is provided in the following cloud disk (https://pan.baidu.com/s/1RfR82pzn9NCaKn3uN8NNEQ , the passcode is ej2c), and the default time slot size is 5 minutes and the past time slot length for each sample is 12. Hence, if you want to build your own dataset or other data with different slot size and past slot length, please feel free to contact me once the paper is accepted ☺.
+The raw data is from Didi (https://outreach.didichuxing.com/research/opendata/ ）, and we have preprocessed these data into the format of our model's input, where the sampling data (all data is too big, 200G+😁) is provided in the following cloud disk (https://pan.baidu.com/s/1RfR82pzn9NCaKn3uN8NNEQ , the passcode is ej2c), and the default time slot size is 5 minutes and the past time slot length for each sample is 12. Hence, if you want to build your own dataset or other data with different slot size and past slot length, please feel free to contact me once the paper is accepted ☺.
 
 
 

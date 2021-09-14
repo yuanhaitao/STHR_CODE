@@ -1,0 +1,85 @@
+model_para:
+  dropout: &dropout 0.1
+  edge_hidden_size: &edge_hidden_dim 64
+  turning_hidden_size: &turning_hidden_size 64
+  link_embedding_dim: &embedding_size 48
+#   n_split_dim: &n_split_dim 10
+#   device: "cuda:0"
+  patcher_gat_param: 
+    num_layers: &num_layers 2
+#     num_hidden: &num_hidden 16
+#     out_dim: &out_dim 48
+    heads: &heads
+        - 3
+        - 3
+        - 1
+    edge_type_num: 4
+    activation: &activation 'relu'
+    feat_drop: *dropout
+    attn_drop: *dropout
+    negtive_slope: &negtive_slope 0.2
+    residual: &residual true
+#     node_feature_dim: &node_feature_dim 32
+    edge_feature_dim: &edge_feature_dim 32
+    use_static_feature: &use_static_feature true
+  localgraph_gat_param: 
+    in_dim: 4
+    num_layers: &local_num_layers 2
+#     num_hidden: &local_num_hidden 8
+#     out_dim: &local_out_dim 24
+    heads: &local_heads
+        - 3
+        - 3
+        - 1
+    edge_type_num: 4
+    activation: &local_activation 'relu'
+    feat_drop: *dropout
+    attn_drop: *dropout
+    negtive_slope: &local_negtive_slope 0.2
+    residual: &local_residual true
+#     node_feature_dim: *node_feature_dim
+    edge_feature_dim: *edge_feature_dim
+    use_static_feature: *use_static_feature
+  stparam:
+#     lens: &lens 12
+#     hidden_size: &st_hidden_size 64
+    num_layers: &st_num_layers 3
+    num_heads: &st_num_heads 6
+#     total_key_depth: &st_total_key_depth 48
+#     total_value_depth: &st_total_value_depth 48
+    filter_size: &st_filter_size 64
+    max_length: &st_max_length 50
+    input_dropout: *dropout
+    layer_dropout: *dropout
+    attention_dropout: *dropout
+    relu_dropout: *dropout
+    use_mask: &st_use_mask true
+    act: &act true
+#     slot_size: &slot_size 5
+#     time_embedding_dim: &time_embedding_size 5
+#     day_embedding_dim: &day_embedding_size 3
+
+training_para:
+#    train_batch_size: 500
+#    test_batch_size: 500
+#    epochs: 200
+#    lr: &lr 0.001
+   momentum: 0.9
+   # 早停止，通过f1-score来监控, 如果连续多次没有增大就停止训练
+#    early_stop_epoch: 20
+   model_save_dir: '/home/hatim/notebook2/ModelRN/ModelRoute/models'
+   log_dir: '/home/hatim/notebook2/ModelRN/ModelRoute/logs'
+   # 模型名字的前缀
+   pre: 'bash_'
+#    lamb: &lamb 0.5
+#    alpha_1: &alpha_1 0.1
+#    alpha_2: &alpha_2 0.1
+   grad_clamp: &grad_clamp 10
+#    model_name: !join [*dropout, *turning_hidden_size,  *num_layers, *num_hidden, *out_dim, *heads, *activation, *negtive_slope, *residual, *node_feature_dim, *edge_feature_dim,  *use_static_feature, *lens, *embedding_size, *st_hidden_size, *st_num_layers, *st_num_heads, *st_total_key_depth, *st_total_value_depth, *st_filter_size, *st_max_length, *st_use_mask, *slot_size, *time_embedding_size, *day_embedding_size, *alpha_1, *alpha_2, *lamb, *lr, *grad_clamp, *act]
+   evaluate_model: false
+   log_interval: 10
+   train_rate: 0.8
+   validate_rate: 1
+   eps: 1
+#    slot_size: *slot_size
+#    pre_slot_num: *lens

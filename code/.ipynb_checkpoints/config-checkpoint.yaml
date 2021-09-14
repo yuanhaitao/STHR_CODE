@@ -1,0 +1,86 @@
+model_para:
+  dropout: &dropout 0
+  edge_hidden_size: &edge_hidden_dim 8
+  turning_hidden_size: &turning_hidden_size 8
+  device: "cuda:2"
+  patcher_gat_param: 
+    num_layers: &num_layers 2
+    num_hidden: &num_hidden 8
+    out_dim: &out_dim 8
+    heads: &heads
+        - 3
+        - 3
+        - 1
+    edge_type_num: 4
+    activation: &activation 'relu'
+    feat_drop: *dropout
+    attn_drop: *dropout
+    negtive_slope: &negtive_slope 0.2
+    residual: &residual true
+    node_feature_dim: &node_feature_dim 8
+    edge_feature_dim: &edge_feature_dim 8
+    use_static_feature: &use_static_feature true
+  localgraph_gat_param: 
+    in_dim: 4
+    num_layers: &local_num_layers 2
+    num_hidden: &local_num_hidden 8
+    out_dim: &local_out_dim 8
+    heads: &local_heads
+        - 3
+        - 3
+        - 1
+    edge_type_num: 4
+    activation: &local_activation 'relu'
+    feat_drop: *dropout
+    attn_drop: *dropout
+    negtive_slope: &local_negtive_slope 0.2
+    residual: &local_residual true
+    node_feature_dim: &local_node_feature_dim 8
+    edge_feature_dim: &local_edge_feature_dim 8
+    use_static_feature: *use_static_feature
+  stparam:
+    lens: &lens 12
+    embedding_size_2: &embedding_size 16
+    hidden_size: &st_hidden_size 8
+    num_layers: &st_num_layers 1
+    num_heads: &st_num_heads 2
+    total_key_depth: &st_total_key_depth 24
+    total_value_depth: &st_total_value_depth 24
+    filter_size: &st_filter_size 16
+    max_length: &st_max_length 50
+    input_dropout: *dropout
+    layer_dropout: *dropout
+    attention_dropout: *dropout
+    relu_dropout: *dropout
+    use_mask: &st_use_mask true
+    act: &act false
+    kernel_size: &st_kernel_size 3
+    slot_size: &slot_size 5
+    time_embedding_dim: &time_embedding_size 10
+    day_embedding_dim: &day_embedding_size 2
+
+training_para:
+   train_batch_size: 1000
+   test_batch_size: 1000
+   epochs: 200
+   lr: &lr 0.001
+   momentum: 0.1
+   # 早停止，通过f1-score来监控, 如果连续多次没有增大就停止训练
+   early_stop_epoch: 30
+   model_save_dir: './models'
+   log_dir: './logs'
+   # 模型名字的前缀
+   pre: 'prediction'
+   lamb: &lamb 0.5
+   alpha_1: &alpha_1 0.5
+   alpha_2: &alpha_2 0.5
+   grad_clamp: &grad_clamp 10
+   model_name: !join [*dropout, *edge_feature_dim, *turning_hidden_size,  *num_layers, *num_hidden, *out_dim, *heads, *activation, *negtive_slope, *residual, *node_feature_dim, *edge_feature_dim,  *use_static_feature, *lens, *embedding_size, *st_hidden_size, *st_num_layers, *st_num_heads, *st_total_key_depth, *st_total_value_depth, *st_filter_size, *st_max_length, *st_use_mask, *st_kernel_size, *slot_size, *time_embedding_size, *day_embedding_size, *alpha_1, *alpha_2, *lamb, *lr, *grad_clamp, *act]
+   evaluate_model: false
+   log_interval: 10
+   train_rate: 0.8
+   validate_rate: 1
+   eps: 1
+#    slot_num: 12
+   slot_size: *slot_size
+   pre_slot_num: *lens

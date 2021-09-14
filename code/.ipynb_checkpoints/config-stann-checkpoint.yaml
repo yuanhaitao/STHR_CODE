@@ -1,0 +1,32 @@
+model_para:
+  device: "cuda:2"
+  spatial_embedding_dim: &spatial_embedding_dim 32
+  lstm_hidden: &lstm_hidden 64
+  heads: &heads 3
+  d_hidden: &d_hidden 128
+  d_out: &d_out 128
+  dropout: &dropout 0.1
+  
+
+training_para:
+   train_batch_size: 500
+   test_batch_size: 500
+   epochs: 200
+   lr: &lr 0.001
+   momentum: 0.9
+   grad_clamp: 10
+   # 早停止，通过f1-score来监控, 如果连续多次没有增大就停止训练
+   early_stop_epoch: 200
+   model_save_dir: './models'
+   log_dir: './logs'
+   # 模型名字的前缀
+   pre: 'prediction'
+   model_name: !join ["STANN",  *spatial_embedding_dim, *heads, *lstm_hidden, *d_hidden, *d_out, *dropout]
+   evaluate_model: false
+   log_interval: 10
+   train_rate: 0.8
+   validate_rate: 1
+   eps: 1
+#    slot_size: 5
+#    pre_slot_num: 12
+   max_length: 50

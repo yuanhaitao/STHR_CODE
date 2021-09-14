@@ -1,0 +1,58 @@
+model_para:
+  dropout: &dropout 0.1
+  edge_hidden_size: &edge_hidden_dim 64
+  turning_hidden_size: &turning_hidden_size 64
+  link_embedding_dim: &embedding_size 48
+  patcher_gat_param: 
+    num_layers: &num_layers 2
+    heads: &heads
+        - 3
+        - 3
+        - 1
+    edge_type_num: 4
+    activation: &activation 'relu'
+    feat_drop: *dropout
+    attn_drop: *dropout
+    negtive_slope: &negtive_slope 0.2
+    residual: &residual true
+    edge_feature_dim: &edge_feature_dim 32
+    use_static_feature: &use_static_feature true
+  localgraph_gat_param: 
+    in_dim: 4
+    num_layers: &local_num_layers 2
+    heads: &local_heads
+        - 3
+        - 3
+        - 1
+    edge_type_num: 4
+    activation: &local_activation 'relu'
+    feat_drop: *dropout
+    attn_drop: *dropout
+    negtive_slope: &local_negtive_slope 0.2
+    residual: &local_residual true
+    edge_feature_dim: *edge_feature_dim
+    use_static_feature: *use_static_feature
+  stparam:
+    num_layers: &st_num_layers 3
+    num_heads: &st_num_heads 6
+    filter_size: &st_filter_size 64
+    max_length: &st_max_length 50
+    input_dropout: *dropout
+    layer_dropout: *dropout
+    attention_dropout: *dropout
+    relu_dropout: *dropout
+    use_mask: &st_use_mask true
+    act: &act true
+
+training_para:
+   momentum: 0.9
+   model_save_dir: './models'
+   log_dir: './logs'
+   # 模型名字的前缀
+   pre: 'bash_'
+   grad_clamp: &grad_clamp 10
+   evaluate_model: false
+   log_interval: 10
+   train_rate: 0.8
+   validate_rate: 1
+   eps: 1
